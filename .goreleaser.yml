@@ -16,7 +16,7 @@ archives:
     format: zip
     files:
       - "README.md"
-      - "spec"
+      - "config.properties"
 checksum:
   name_template: 'checksums.txt'
 snapshot:
