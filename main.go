@@ -3,15 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/quickfixgo/field"
-	"github.com/quickfixgo/fix44/heartbeat"
 	"github.com/quickfixgo/quickfix"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 )
 
 type Pinger struct {
@@ -19,19 +16,6 @@ type Pinger struct {
 
 func (p Pinger) OnCreate(sessionID quickfix.SessionID) {
 	log.Debug().Str("sessionID", fmt.Sprintf("%+v", sessionID)).Msg("OnCreate")
-
-	go func() {
-		for {
-			hb := heartbeat.New()
-			hb.Header.Set(field.NewSenderCompID(sessionID.SenderCompID))
-			hb.Header.Set(field.NewTargetCompID(sessionID.TargetCompID))
-			err := quickfix.Send(hb)
-			if err != nil {
-				log.Error().Err(err).Msg("while sending heartbeat")
-			}
-			time.Sleep(5 * time.Second) // or runtime.Gosched() or similar per @misterbee
-		}
-	}()
 }
 
 func (p Pinger) OnLogon(sessionID quickfix.SessionID) {
