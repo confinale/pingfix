@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/quickfixgo/quickfix v0.7.0
-	github.com/rs/zerolog v1.29.1
+	github.com/rs/zerolog v1.30.0
 )
 
 require (
